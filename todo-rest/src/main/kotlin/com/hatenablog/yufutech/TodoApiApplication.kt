@@ -1,11 +1,11 @@
-package com.hatenablog.yufutech.todoapi
+package com.hatenablog.yufutech
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class TodoApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<TodoApiApplication>(*args)
+    SpringApplication.run(TodoApiApplication::class.java, *args)
 }

@@ -2,17 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.8-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
 	<groupId>com.hatenablog.yufutech</groupId>
 	<artifactId>todo-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>todo-api</name>
-	<description>Demo project for Spring Boot</description>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>todo-rest</module>
+	</modules>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.14</version>
+	</parent>
+
 	<properties>
 		<java.version>17</java.version>
 		<kotlin.version>1.6.21</kotlin.version>
@@ -52,40 +57,64 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.jetbrains.kotlin</groupId>
 				<artifactId>kotlin-maven-plugin</artifactId>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<version>${kotlin.version}</version>
 				<configuration>
-					<args>
-						<arg>-Xjsr305=strict</arg>
-					</args>
 					<compilerPlugins>
 						<plugin>spring</plugin>
-						<plugin>jpa</plugin>
+						<plugin>all-open</plugin>
 					</compilerPlugins>
+					<pluginOptions>
+						<option>all-open:annotation=javax.inject.Named</option>
+					</pluginOptions>
+					<jvmTarget>1.8</jvmTarget>
 				</configuration>
+
+				<executions>
+					<execution>
+						<id>compile</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<sourceDirs>
+								<sourceDir>${project.basedir}/src/main/java</sourceDir>
+								<sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+							</sourceDirs>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>test-compile</id>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+						<configuration>
+							<sourceDirs>
+								<sourceDir>${project.basedir}/src/test/java</sourceDir>
+								<sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+							</sourceDirs>
+						</configuration>
+					</execution>
+				</executions>
 				<dependencies>
 					<dependency>
 						<groupId>org.jetbrains.kotlin</groupId>
 						<artifactId>kotlin-maven-allopen</artifactId>
 						<version>${kotlin.version}</version>
 					</dependency>
-					<dependency>
-						<groupId>org.jetbrains.kotlin</groupId>
-						<artifactId>kotlin-maven-noarg</artifactId>
-						<version>${kotlin.version}</version>
-					</dependency>
 				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
+
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
