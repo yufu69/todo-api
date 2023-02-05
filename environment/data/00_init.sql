@@ -1,6 +1,6 @@
-CREATE USER developer WITH PASSWORD 'developer' SUPERUSER;
-CREATE DATABASE todo owner developer encoding 'UTF8';
-GRANT ALL PRIVILEGES ON DATABASE todo TO developer;
+CREATE USER test WITH PASSWORD 'test' SUPERUSER;
+CREATE DATABASE todo owner test encoding 'UTF8';
+GRANT ALL PRIVILEGES ON DATABASE todo TO test;
 
 \c todo;
 
