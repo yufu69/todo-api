@@ -7,7 +7,6 @@ import com.hatenablog.yufutech.TodoName
 import com.hatenablog.yufutech.Todos
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -24,7 +23,7 @@ class TodoResourceTest {
 ////            val todo1 = mockkStatic("com.hatenablog.yufutech.todos.v1.TodoResourceKt")
 ////            val todo2 = mockkStatic("com.hatenablog.yufutech.todos.v1.TodoResourceKt")
 //
-//            val todos = Todos(listOf(todo1, todo2))
+//            val target = Todos(listOf(todo1, todo2))
 //
 //            val todo1Json = mockk<TodoJson>()
 //            val todo2Json = mockk<TodoJson>()
@@ -34,12 +33,12 @@ class TodoResourceTest {
 //            every { todo1.toJson() } returns todo1Json
 //            every { todo2.toJson() } returns todo2Json
 //
-//            assertEquals(expected, todos.toJson())
+//            assertEquals(expected, target.toJson())
 //
 //            verify { todo1.toJson() }
 //            verify { todo2.toJson() }
 
-            // このテストでは Todo を本物にする必要はないと思ってて、↑ のモック使う方がやりたいけど、なんかエラーになっちゃう。。
+            // TODO: このテストでは Todo を本物にする必要はないと思ってて、↑ のモック使う方がやりたいけど、なんかエラーになっちゃう。。
             val id1 = UUID.randomUUID()
             val id2 = UUID.randomUUID()
             val name1 = "todo-name-1"
@@ -52,7 +51,19 @@ class TodoResourceTest {
             val todoJson1 = TodoJson(id = id1.toString(), name = name1)
             val todoJson2 = TodoJson(id = id2.toString(), name = name2)
 
-            val expected = TodosJson(todos = listOf(todoJson1, todoJson2))
+            val expected = TodosJson(
+                todos = listOf(todoJson1, todoJson2)
+            )
+
+            assertEquals(expected, target.toJson())
+        }
+
+        @Test
+        fun `Todo が存在しない場合`() {
+            val target = Todos(emptyList())
+
+            val expected = TodosJson(
+                todos = emptyList())
 
             assertEquals(expected, target.toJson())
         }
@@ -62,13 +73,13 @@ class TodoResourceTest {
     fun `Todo オブジェクトを TodoJson に変換する`() {
         val uuid = UUID.randomUUID()
         val todoName = "todo-name"
-        val todo = Todo(TodoId(uuid), TodoName(todoName))
+        val target = Todo(TodoId(uuid), TodoName(todoName))
 
         val expected = TodoJson(
             id = uuid.toString(),
             name = todoName
         )
 
-        assertEquals(expected, todo.toJson())
+        assertEquals(expected, target.toJson())
     }
 }

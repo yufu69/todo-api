@@ -24,7 +24,7 @@ fun Todos.toJson(): TodosJson {
 
 fun Todo.toJson(): TodoJson {
     return TodoJson(
-        id = id.value.toString(),
-        name = name.value
+        id.value.toString(),
+        name.value
     )
 }
